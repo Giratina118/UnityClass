@@ -6,71 +6,80 @@ public class GameManager : MonoBehaviour
 {
     public BlockElement m_CloneBlockElement = null;
 
-    public int XSize = 4, YSize = 4;
+    public int XSize = 6, YSize = 6;
 
     public Camera LinkCam = null;
     public bool[,] isMineArr;
     public int[,] aroundMine;
     public BlockElement[,] AllBlockElementArr = null;
-
-    int mineCount = 0;
+    bool[,] blockOpenChecked;
 
     protected void InitMineSeeting()
     {
         isMineArr = new bool[YSize, XSize];
         aroundMine = new int[YSize, XSize];
 
-
         for (int y = 0; y < YSize; y++)
-        {
             for (int x = 0; x < XSize; x++)
-            {
                 isMineArr[y, x] = false;
-            }
-        }
 
-
-        if (true)
+        int mineNum = XSize * YSize / 10 + 1;
+        
+        for (int i = 0; i < mineNum; i++)
         {
-            isMineArr[1, 2] = true;
+            int mineX = Random.Range(0, XSize - 1);
+            int mineY = Random.Range(0, YSize - 1);
+            
+            if (isMineArr[mineX, mineY])
+            {
+                i--;
+                continue;
+            }
+            else
+                isMineArr[mineX, mineY] = true;
         }
-
 
         for (int y = 0; y < YSize; y++)
-        {
             for (int x = 0; x < XSize; x++)
-            {
                 AllBlockElementArr[y, x].SetMine(isMineArr[y, x]);
-            }
-        }
 
     }
 
-
-
-    void AroundMine(int y, int x)
+    bool IsBlock(int x, int y)
     {
-        mineCount = 0;
+        if (y >= YSize || y < 0)
+            return false;
+        else if (x >= XSize || x < 0)
+            return false;
 
-        if (y + 1 < YSize && x + 1 < XSize && isMineArr[y + 1, x + 1])
+        return true;
+    }
+
+    int AroundMine(int y, int x)
+    {
+        int mineCount = 0;
+
+        
+        if (IsBlock(y + 1, x + 1) && isMineArr[y + 1, x + 1])
             mineCount++;
-        if (y + 1 < YSize && isMineArr[y + 1, x])
+        if (IsBlock(y + 1, x) && isMineArr[y + 1, x])
             mineCount++;
-        if (y + 1 < YSize && x - 1 >= 0 && isMineArr[y + 1, x - 1])
+        if (IsBlock(y + 1, x - 1) && isMineArr[y + 1, x - 1])
             mineCount++;
 
-        if (x + 1 < XSize && isMineArr[y, x + 1])
+        if (IsBlock(y, x + 1) && isMineArr[y, x + 1])
             mineCount++;
-        if (x - 1 >= 0 && isMineArr[y, x - 1])
-            mineCount++;
-
-        if (y - 1 >= 0 && x + 1 < XSize && isMineArr[y - 1, x + 1])
-            mineCount++;
-        if (y - 1 >= 0 && isMineArr[y - 1, x])
-            mineCount++;
-        if (y - 1 >= 0 && x - 1 >= 0 && isMineArr[y - 1, x - 1])
+        if (IsBlock(y, x - 1) && isMineArr[y, x - 1])
             mineCount++;
 
+        if (IsBlock(y - 1, x + 1) && isMineArr[y - 1, x + 1])
+            mineCount++;
+        if (IsBlock(y - 1, x) && isMineArr[y - 1, x])
+            mineCount++;
+        if (IsBlock(y - 1, x - 1) && isMineArr[y - 1, x - 1])
+            mineCount++;
+
+        return mineCount;
     }
 
     private void Awake()
@@ -120,43 +129,111 @@ public class GameManager : MonoBehaviour
                 BlockElement element = hitinfo.transform.GetComponent<BlockElement>();
                 if (element != null)
                 {
-                    Debug.Log($"ºÎµúÈû {YSize - 1 - (int)element.transform.position.y} {(int)element.transform.position.x}");
+                    int y = (int)element.transform.position.y;
+                    int x = (int)element.transform.position.x;
 
-                    AroundMine(YSize - 1 - (int)element.transform.position.y, (int)element.transform.position.x);
+                    Debug.Log($"ºÎµúÈû {YSize - 1 - y} {x}");
 
+                    /*
+                    int mineCount = AroundMine(YSize - 1 - y, x);
 
                     if (element.m_ISMine)
                         Debug.Log("Áö·Ú");
                     else
                         Debug.Log($"±ÙÃ³ Áö·Ú °³¼ö {mineCount}");
+                    AllBlockElementArr[XSize - 1 - x, y].minecount = mineCount;
+                    */
 
-                    Sprite img = ResourceManager.Instance.m_QuestList[mineCount];
+                    //AllBlockElementArr[XSize - 1 - x, y].SetMouseClick();
+                    //BlockOpen(XSize - 1 - x, y);
 
-
+                    if (AllBlockElementArr[XSize - 1 - x, y].m_ISMine)
+                        AllBlockElementArr[XSize - 1 - x, y].SetMouseClick();
+                    BlockOpenProcess(XSize - 1 - x, y);
                 }
                 else
                 {
                     Debug.Log($"Àß¸ø ´­·È½À´Ï´Ù. ");
                 }
-
             }
+        }
+        else if (Input.GetMouseButtonDown(1))
+        {
+            Ray ray = LinkCam.ScreenPointToRay(Input.mousePosition);
 
+            RaycastHit hitinfo;
+            if (Physics.Raycast(ray, out hitinfo, 999f))
+            {
+                BlockElement element = hitinfo.transform.GetComponent<BlockElement>();
+                if (element != null)
+                {
+                    int y = (int)element.transform.position.y;
+                    int x = (int)element.transform.position.x;
+                    AllBlockElementArr[XSize - 1 - x, y].SetMouseRightClick();
+                }
+            }
         }
     }
 
-
     
+
+    void BlockOpen(int x, int y)
+    {
+        BlockOpenProcess(x, y + 1);
+        BlockOpenProcess(x - 1, y);
+        BlockOpenProcess(x, y - 1);
+        BlockOpenProcess(x + 1, y);
+    }
+
+
+
+    void BlockOpenProcess(int x, int y)
+    {
+        if (IsBlock(x, y) && !blockOpenChecked[x, y] && !AllBlockElementArr[x, y].m_ISMine)
+        {
+            AllBlockElementArr[x, y].minecount = AroundMine(x, y);
+            AllBlockElementArr[x, y].SetMouseClick();
+            blockOpenChecked[x, y] = true;
+
+            if (AllBlockElementArr[x, y].minecount == 0)
+            {
+                
+                BlockOpen(x, y);
+                //yield return StartCoroutine(OpenCoroutine());
+            }
+                
+        }
+    }
+
+    private IEnumerator OpenCoroutine()
+    {
+        yield return new WaitForSeconds(0.5f);
+    }
+
+
+    public void _On_RestartGame()
+    {
+
+    }
+
+    protected RectTransform m_GameOverPanel = null;
+    public void GameOver()
+    {
+        //m_GameOverPanel
+    }
 
 
     void Start()
     {
-        
+        blockOpenChecked = new bool[YSize, XSize];
+        for (int x = 0; x < XSize; x++)
+            for (int y = 0; y < YSize; y++)
+                blockOpenChecked[y, x] = false;
     }
 
 
     void Update()
     {
         UpdateClick();
-
     }
 }

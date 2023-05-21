@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class ResourceManager : MonoBehaviour
 {
+    public List<Sprite> m_Sprites = new List<Sprite>();
+    public Sprite m_Boomber = null;
+    public List<Sprite> m_QuestList = new List<Sprite>();
+
 
     protected static ResourceManager m_Instance = null;
     public static ResourceManager Instance
@@ -14,19 +18,9 @@ public class ResourceManager : MonoBehaviour
             {
                 m_Instance = GameManager.FindObjectOfType<ResourceManager>();
             }
-
             return m_Instance;
         }
     }
-
-
-
-    public List<Sprite> m_Sprites = new List<Sprite>();
-    public Sprite m_Boomber = null;
-    public List<Sprite> m_QuestList = new List<Sprite>();
-
-
-
 
 
 
@@ -35,7 +29,7 @@ public class ResourceManager : MonoBehaviour
         
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         
