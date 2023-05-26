@@ -1,0 +1,30 @@
+무료 이미지
+배경 이미지도 있고 UI 이미지도 있다.
+
+https://opengameart.org/
+
+https://www.kenney.nl/
+
+
+그림은 저장 방식 2가지
+벡터 방식
+sin cos 등 함수 이용해 그림
+확대해도 그림이 안 깨지지만 용량이 크다
+
+비트맵 방식
+도트와 비슷, 용량이 작다
+
+Spritesheet -> 모든 이미지를 한 면에 모아놓은 것
+이걸로 사용해야 함
+
+UI에서 쓰고 싶으면 Texture Type을 Sprite로 바꿔줘야 함
+Sprite Mode -> Single
+쉬프트로 모는 이미지 선택 가능, 선택 후 위의 두개 한 번에 진행
+
+
+Window -> Package Manager -> 위쪽 Package: Unity Registry
+-> 2D Sprite 설치
+
+
+원본 이미지 선택 -> Sprite Editor -> 초록 선 조절
+ -> Image Type의 Sliced 사용 가능

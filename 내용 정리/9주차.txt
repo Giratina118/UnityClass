@@ -1,0 +1,62 @@
+이동할 때 컴퓨터간 차이 없애기 위해 델타타임 곱해주기
+if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+{
+	Vector3 pos = transform.position;
+            pos.x -= moveSpeed * Time.deltaTime;
+            this.transform.position = pos;
+}
+
+지역변수는 그 중괄호 끝나면 끝남
+-> 중괄호만 하나 쳐 놓고 그 안에 선언해도 그 괄호 안에서만 사용
+
+C#의 List와 C++의 vector가 비슷한 역할
+C#의 Dictionary와 C++의 map이 비슷한 역할
+
+
+// 발사체 복사 함수
+if (Input.GetKeyDown(KeyCode.Space))
+{
+            Vector3 pos = transform.position;
+            cloneObj = GameObject.Instantiate(copyObj);
+            cloneObj.transform.position = pos;
+
+            cloneObjList.Add(cloneObj);
+}
+GameObject.Instantiate() -> 복사하기
+
+player 스크립트에서 탄막 생성
+shoot 스크립트에서 이동
+
+
+*중요*
+Shoot cloneshoot = clonObj.GetComponent<Shoot>();
+-> inspector 안에 있는 transform이외의 요소들을 가져오려면
+GetComponent로 가져와 줘야 한다.
+
+
+
+충돌
+private void OnCollisionEnter(Collision collision) {
+        Debug.Log($"충돌 : {collision.gameObject.name}");
+}
+
+관통
+private void OnTriggerEnter(Collider other) {
+        Debug.Log($"충돌 : {other.gameObject.name}");
+}
+
+
+C#의 랜덤(System) rand.Next(x, y)는 정수만 가능, x이상 y미만
+유니티의 랜덤 UnityEngine.Random.Range(x, y)
+-> 실수도 가능하고 x이상, y이하
+
+
+
+
+
+
+
+
+
+
+

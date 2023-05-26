@@ -1,0 +1,63 @@
+기본 이동
+public float MoveSpeed = 1.0f;
+
+void UpdateMove()
+{
+        float xx = Input.GetAxis("Horizontal");
+        float zz = Input.GetAxis("Vertical");
+
+        Vector3 temppos = transform.position;
+        temppos.x += xx * MoveSpeed * Time.deltaTime;
+        temppos.z += zz * MoveSpeed * Time.deltaTime;
+        transform.position = temppos;
+}
+
+
+마우스 커서 따라 회전
+public Vector2 MouseScreemPos;
+
+void UpdateRotation()
+{
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hitinfo;
+
+        if(Physics.Raycast(ray, out hitinfo, 999.0f))
+        	    transform.rotation = Quaternion.LookRotation(hitinfo.point - transform.position, Vector3.up);
+}
+
+
+
+충돌(마우스 커서로 눌렀을 때)
+void UpdateShot()
+{
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = new Ray();
+            ray.origin = shotTrans.position;
+            ray.direction = shotTrans.forward;
+
+            RaycastHit hitinfo;
+            if (Physics.Raycast(ray, out hitinfo, 999.0f))
+            {
+                Debug.Log($"충돌됨: {hitinfo.transform.name}");
+            }
+
+        }
+}
+
+
+Layer(상위) > Tag(하위)
+
+
+이미지 리소스 구하는 곳 
+kenney, OpenGameArt, itch.io
+
+적이 자동으로 나를 따라 오도록 하는 것
+Window -> AI -> Navigation -> Bake
+public NavMeshAgent MobAgent = null;	-> 필드
+MobAgent = GetComponent<NavMeshAgent>();	-> START
+MobAgent.SetDestination(TargetPlayer.transform.position); -> UPDATE
+
+
+
+
