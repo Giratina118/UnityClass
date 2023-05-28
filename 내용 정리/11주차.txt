@@ -1,0 +1,166 @@
+선형보간 -> 시작과 끝을 정해주면 길이 비에 따라 그 안에서 수 적용
+Math.Lerp();  Vector3.Lerp();
+원형보간
+Vector3Slerp()
+Vector3.SmoothDamp()
+
+LeanTween
+DOTween
+
+
+이동할 때 자연스럽게 카메라가 따라 움직이도록 하는 코드
+public Transform m_Target = null;
+public Vector3 m_Offeset = Vector3.zero;
+public float m_Lerp = 0.2f;
+
+private void awake() 
+{
+	m_offeset = transform.position - m_target.position;
+}
+
+void Update()
+{
+	Vector3 temppos = Vector3.Lerp(transform.position, 
+		m_Target.position + m_Offeset, m_Lerp * Time.deltaTime);
+	transform.position = temppos;
+}
+
+
+[ ]를 쓰는 것을 attribute라고 함
+[SerializeField]
+ -> private, protected 더라도 유니티 필드에 나타나게 함
+
+
+prefap
+원본을 바꾸면 복사본들도 바뀜, 복사본 중 수정한 적이 있는
+복사본은 원본을 바꿔도 안 바뀜
+
+
+스페이스바 눌렀을 때(탄 발사할 때)
+public Rigidbody BulletShell = null;
+public Transform BulletTrans = null;	-> bulletpos
+public float Pow = 2.0f;
+
+void SetAttack()
+{
+        Rigidbody cloneobj = GameObject.Instantiate(BulletShell);
+
+        cloneobj.gameObject.SetActive(true);
+        cloneobj.transform.position = BulletTrans.position;
+        cloneobj.transform.rotation = Quaternion.LookRotation(BulletTrans.forward);
+// 탱크가 보는 방향으로 날아가게 하기
+
+        cloneobj.AddForce(BulletTrans.forward * Pow, ForceMode.Impulse);
+}
+
+
+탄의 처리(충돌 시 파괴)
+public GameObject ShellExpolistion = null;
+void OnCollisionEnter(Collision collision)
+{
+        GameObject.Instantiate(ShellExpolistion, transform.position, Quaternion.identity);
+        GameObject.Destroy(this.gameObject);
+}
+// 탄이 날아가는 방향에 맞게 돌아가기(포물선으로)
+
+void Start() 
+{
+        m_LinkRigidBody = GetComponent<Rigidbody>();
+}
+void Update() 
+{
+        if(m_LinkRigidBody.velocity.magnitude >= 0.001f )
+            transform.rotation = Quaternion.LookRotation(m_LinkRigidBody.velocity);
+}
+
+
+
+Particle Effect
+Particle System
+단 떨어지는 이펙트 만들기
+
+GameObject expolistionclone = GameObject.Instantiate
+	(ShellExp0listion, transform.position, Quaternion.identity);
+
+방법1 여기다 만들기
+if (true) {
+	ParticleSystem system = expolistionclone.GameComponent<ParticleSystem>();
+	system.Play();
+	GameObject.Destroy(expolistionclon, 5.0f);
+}
+
+방법2 새로 스크립트 만들어서 하고 탄에 달아놓기
+
+
+
+유니티 주요 코드들
+Input
+Rigidbody.addforce();
+GameObject.Instantiate();
+GameObject.Destroy();
+Transform.position();
+transform.rotate();
+this.GetComponent<Transform>();
+Random.Range(10,20);
+gameObject.SetActive(true);
+Quaternion.LookRotation();
+
+
+
+Canvas -> 화면에 2D로 뜨는 UI
+UI를 만들면 canvas 안에 만들어 지고 EventSystem이 만들어 진다.
+EventSystem은 무조건 1개만
+
+
+UI의 슬라이더 연결하기
+public Slider UIPowerSlider = null;
+
+
+힘 모아서 공격하기 (오래 누를수록 강하게)
+Time.time; -> 경과된 시간 (float 형식)
+
+public float MinPressSec = 0.2f;
+public float MaxPressSec = 2.0f;
+
+if( Input.GetKeyDown(KeyCode.Space) )
+{
+            m_ISPress = true;
+            m_PreseeSec = Time.time; // 소수점, 게임 진행 후 경과 시간(눌렀을 때 시간)
+}
+if(m_ISPress)	// 눌렀을 때 실행
+{
+            float reminesec = Time.time - m_PreseeSec; (누른 후 경과 시간)
+
+            m_PressWeight = 0.5f;	// 기본 파워, 가장 약한
+            if (reminesec >= MaxPressSec)
+                m_PressWeight = 1f;	// 가장 강한 파워, 2초이상 눌렀을 때
+            else if (reminesec >= MinPressSec)
+            {
+                float div = 1 / (MaxPressSec - MinPressSec);
+                m_PressWeight = Mathf.Lerp(0.5f, 1f, (reminesec - MinPressSec) * div);
+            }
+
+            UIPowerSlider.value = m_PressWeight;
+}
+if( Input.GetKeyUp(KeyCode.Space) )
+{
+            float reminesec = Time.time - m_PreseeSec;
+
+            m_PressWeight = 0.5f;
+            if (reminesec >= MaxPressSec)
+                m_PressWeight = 1f;
+            else if(reminesec >= MinPressSec)
+            {
+                float div = 1 / (MaxPressSec - MinPressSec);
+                m_PressWeight = Mathf.Lerp(0.5f, 1f, (reminesec - MinPressSec) * div );
+            }
+
+            m_ISPress = false;
+            UIPowerSlider.value = m_PressWeight;
+            SetAttack(m_PressWeight);
+}
+
+
+meta 파일 지워버리면 복구 불가능, 프로젝트 깨짐
+
+

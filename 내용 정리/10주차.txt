@@ -1,0 +1,65 @@
+Global좌표, Local좌표
+
+float xVec = Input.GetAxis("Horizontal");
+Vector3 temppos = transform.position;
+temppos.x += (xVec * MoveSpeed * Time.deltaTime);
+transform.position = temppos;
+
+유니티의 edit -> project setting -> input manager -> axes
+Input.GetAxis( );의 괄호 안에 들어갈 문자를 보여줌
+Horizontal(x축 좌우), Vertical(z축 전후), file1 등등
+
+이 안의 기본 size를 18에서 19로 늘리고 이름 지정, 키 지정
+	후 사용 가능
+public float _TestCode_Rot = 0.1f
+_TestCode_Rot = 
+
+Input.GetKey(KeyCode. )와 이동에서의 차이점
+GetAxis는 현실의 가속과 같은 것이 적용 -> 부드럽게 출발 정지
+GetKey는 정해진 만큼 딱딱 이동
+
+
+이동하는 각도 회전하는 방법들
+Vector3 directionvec = new Vector(xVec * MoveSpeed * Time.deltaTime, 
+	0.0f, zVec * MoveSpeed * Time.deltaTime);
+directionvec = transform.rotation * directionvec;
+temppos += directionvec;
+// transform.position들을 transform.localposition으로 바꿔준다.
+이동을 할 때 항상 글로벌 좌표를 기준으로 이동키를 받는데
+이에 회전을 주어 로컬좌표와 맞추는 것
+
+transform.Translate(xVec * MoveSpeed * Time.deltaTime, 
+	0.0f, zVec * MoveSpeed * Time.deltaTime);
+이 위의 코드를 다 포함하고 있는 코드
+
+
+Quaternion rot = transform.rotation;
+rot.eulerAngles;
+
+Quaternion.Euler(0, 45, 0);
+
+
+카메라를 Assert의 내가 볼 대상 안에 넣어 놓으면 그 대상을 따라 움직임
+
+
+public Rigidbody LinkRigid = null;
+
+if (Input.GetKeyDown(KeyCode.Space))
+	LinkRigid.AddForce(Direction * pow);
+
+
+string abc = "벽 002";
+if(abc.Indexof("벽") >= 0) //이름에 벽이 들어가면 처리
+
+
+inspector에 각각 태그 설정 가능, 
+if(other.gameObject.tag == "wall") //태그가 wall이 있으면 처리
+
+
+탱크의 총알이 포물선으로 이동하면서 이동 방향으로 저절로 휘이도록 하는 코드
+public Rigidbody LinkRigid = null;
+LinkRigid = GetComponent<Rigidbody>();
+if (LinkRigid.velocity.sqrMagnitude > 0.001f)
+{
+            transform.rotation = Quaternion.LookRotation(LinkRigid.velocity);
+}
