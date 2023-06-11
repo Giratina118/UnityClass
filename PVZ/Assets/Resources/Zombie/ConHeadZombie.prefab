@@ -10,11 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1605999429057291090}
   - component: {fileID: 1681385459675353734}
-  - component: {fileID: 1574530163154125069}
   - component: {fileID: 7656168647031268350}
   - component: {fileID: 6421093008127968469}
+  - component: {fileID: -2053722899108635159}
+  - component: {fileID: 6501147505958699644}
   m_Layer: 0
-  m_Name: Zombie1
+  m_Name: ConHeadZombie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,20 +88,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1574530163154125069
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8382505137056574341}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd20e294c50742345b2d6feec27cc188, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MoveSpeed: 2
-  HP: 5
 --- !u!70 &7656168647031268350
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -138,3 +125,32 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-2053722899108635159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8382505137056574341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e1a7d5c218059b488bd030d7bbb4cba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveSpeed: 2
+  HP: 5
+  spriteZombie: {fileID: 21300000, guid: f788662cfdb64e242b1598af2e3fe6af, type: 3}
+--- !u!114 &6501147505958699644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8382505137056574341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd20e294c50742345b2d6feec27cc188, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveSpeed: 2
+  HP: 5

@@ -468,7 +468,7 @@ MonoBehaviour:
   waveInfo: []
   zombies:
   - {fileID: -4699790495712119501, guid: 72c62642a4a91c344955428ac24c04a5, type: 3}
-  - {fileID: 1574530163154125069, guid: c4c7fdde8444d594d8c04086bed64ab1, type: 3}
+  - {fileID: 0}
 --- !u!4 &964670275
 Transform:
   m_ObjectHideFlags: 0
@@ -748,6 +748,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2053722899108635159, guid: c4c7fdde8444d594d8c04086bed64ab1, type: 3}
+      propertyPath: HP
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -2053722899108635159, guid: c4c7fdde8444d594d8c04086bed64ab1, type: 3}
+      propertyPath: MoveSpeed
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1605999429057291090, guid: c4c7fdde8444d594d8c04086bed64ab1, type: 3}
       propertyPath: m_RootOrder
       value: 14
@@ -794,7 +802,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8382505137056574341, guid: c4c7fdde8444d594d8c04086bed64ab1, type: 3}
       propertyPath: m_Name
-      value: Zombie1
+      value: ConHeadZombie
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4c7fdde8444d594d8c04086bed64ab1, type: 3}
@@ -908,11 +916,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2326093258382631746, guid: 72c62642a4a91c344955428ac24c04a5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.74
+      value: 8.06
       objectReference: {fileID: 0}
     - target: {fileID: 2326093258382631746, guid: 72c62642a4a91c344955428ac24c04a5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.94
+      value: -5.86
       objectReference: {fileID: 0}
     - target: {fileID: 2326093258382631746, guid: 72c62642a4a91c344955428ac24c04a5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -958,6 +966,10 @@ PrefabInstance:
     - target: {fileID: 2660480951839602856, guid: c25fd68741e9765489e47d0b7723c802, type: 3}
       propertyPath: m_Name
       value: Temp ShotFollower
+      objectReference: {fileID: 0}
+    - target: {fileID: 2660480951839602856, guid: c25fd68741e9765489e47d0b7723c802, type: 3}
+      propertyPath: m_TagString
+      value: Plant
       objectReference: {fileID: 0}
     - target: {fileID: 2660480951839602862, guid: c25fd68741e9765489e47d0b7723c802, type: 3}
       propertyPath: m_RootOrder
@@ -1063,6 +1075,10 @@ PrefabInstance:
     - target: {fileID: 4546811707214455714, guid: 59a48ef1dd580cb4dbd5193a33cba00b, type: 3}
       propertyPath: m_Name
       value: Temp SunFollower
+      objectReference: {fileID: 0}
+    - target: {fileID: 4546811707214455714, guid: 59a48ef1dd580cb4dbd5193a33cba00b, type: 3}
+      propertyPath: m_TagString
+      value: Plant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59a48ef1dd580cb4dbd5193a33cba00b, type: 3}
